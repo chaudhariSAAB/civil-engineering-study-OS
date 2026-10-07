@@ -62,6 +62,19 @@ const navItems = [
   { label: 'Viva Practice', icon: Mic2 }, { label: 'Project Guide', icon: NotebookTabs }, { label: 'Structural & Project Software', icon: Target }, { label: 'Project & Final Year Manager', icon: ClipboardList }, { label: 'Career & Internship OS', icon: Trophy }, { label: 'Study Voice & Camera', icon: Mic2 }, { label: 'Privacy & Offline Center', icon: Settings }, { label: 'Adaptive Learning', icon: Trophy }, { label: 'Drawing & Diagram AI', icon: ScanLine }, { label: 'Local AI', icon: Cpu },
 ];
 
+
+function readLocalJson<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw) as T;
+    return parsed ?? fallback;
+  } catch {
+    localStorage.removeItem(key);
+    return fallback;
+  }
+}
+
 const defaultTasks: Task[] = [
   { id: 'math1', title: 'Mathematics - I · Unit 1–2 Revision', duration: '1 hr', done: false },
   { id: 'physics', title: 'Engineering Physics · Internal Portion', duration: '1 hr', done: false },
@@ -73,8 +86,8 @@ function App() {
   const [active, setActive] = useState('Home');
   const [query, setQuery] = useState('');
   const [selectedSemester, setSelectedSemester] = useState(1);
-  const [tasks, setTasks] = useState<Task[]>(() => JSON.parse(localStorage.getItem('civil-study-tasks') || JSON.stringify(defaultTasks)));
-  const [materials, setMaterials] = useState<Material[]>(() => JSON.parse(localStorage.getItem('civil-study-materials') || '[]'));
+  const [tasks, setTasks] = useState<Task[]>(() => readLocalJson<Task[]>('civil-study-tasks', defaultTasks));
+  const [materials, setMaterials] = useState<Material[]>(() => readLocalJson<Material[]>('civil-study-materials', []));
   const [teacherTopic, setTeacherTopic] = useState('');
   const [teacherAnswer, setTeacherAnswer] = useState('');
   const [workbenchAnswer, setWorkbenchAnswer] = useState('');
@@ -91,7 +104,7 @@ function App() {
   const [questionBankAnalysis, setQuestionBankAnalysis] = useState<{ material: { name: string; subject: string; source: string }; analysis: { totalQuestions: number; categories: { mcq: number; theory: number; numerical: number; drawingPractical: number; other: number }; unitsOrTopics: string[]; studyAdvice: string[] } } | null>(null);
   const [questionBankPractice, setQuestionBankPractice] = useState<{ material: { id: string; name: string; subject: string; source: string }; questions: Array<{ type: string; question: string; answer?: string | null; topic?: string }> } | null>(null);
   const [adaptivePlan, setAdaptivePlan] = useState<{ summary: string; actions: Array<{ priority: string; topic: string; reason: string; action: string; minutes: number }> } | null>(null);
-  const [adaptiveAttempts, setAdaptiveAttempts] = useState<AdaptiveAttempt[]>(() => JSON.parse(localStorage.getItem('civil-study-adaptive-attempts') || '[]'));
+  const [adaptiveAttempts, setAdaptiveAttempts] = useState<AdaptiveAttempt[]>(() => readLocalJson<AdaptiveAttempt[]>('civil-study-adaptive-attempts', []));
   const [mcqSubject, setMcqSubject] = useState(semesters[0].subjects[0]);
   const [drawingFile, setDrawingFile] = useState<File | null>(null);
   const [drawingMode, setDrawingMode] = useState('Explain the drawing step by step for a beginner');
@@ -109,7 +122,7 @@ function App() {
   const [calculatorA, setCalculatorA] = useState('');
   const [calculatorB, setCalculatorB] = useState('');
   const [calculatorResult, setCalculatorResult] = useState('');
-  const [estimateItems, setEstimateItems] = useState<Array<{ id: string; description: string; measurement: 'count' | 'length' | 'area' | 'volume'; length: string; width: string; height: string; multiplier: string; rate: string; quantity: number; amount: number }>>(() => JSON.parse(localStorage.getItem('civil-study-estimate-items') || '[]'));
+  const [estimateItems, setEstimateItems] = useState<Array<{ id: string; description: string; measurement: 'count' | 'length' | 'area' | 'volume'; length: string; width: string; height: string; multiplier: string; rate: string; quantity: number; amount: number }>>(() => readLocalJson<Array<{ id: string; description: string; measurement: 'count' | 'length' | 'area' | 'volume'; length: string; width: string; height: string; multiplier: string; rate: string; quantity: number; amount: number }>>('civil-study-estimate-items', []));
   const [estimateDescription, setEstimateDescription] = useState('');
   const [estimateMeasurement, setEstimateMeasurement] = useState<'count' | 'length' | 'area' | 'volume'>('volume');
   const [estimateLength, setEstimateLength] = useState('');
@@ -125,26 +138,27 @@ function App() {
   const [cadLevel, setCadLevel] = useState('Beginner');
   const [projectName, setProjectName] = useState(() => localStorage.getItem('civil-study-project-name') || 'Residential Building Project');
   const [projectStage, setProjectStage] = useState(() => localStorage.getItem('civil-study-project-stage') || 'Planning');
-  const [projectTasks, setProjectTasks] = useState<string[]>(() => JSON.parse(localStorage.getItem('civil-study-project-tasks') || '[]'));
-  const [careerSkills, setCareerSkills] = useState<string[]>(() => JSON.parse(localStorage.getItem('civil-study-career-skills') || '[]'));
+  const [projectTasks, setProjectTasks] = useState<string[]>(() => readLocalJson<string[]>('civil-study-project-tasks', []));
+  const [careerSkills, setCareerSkills] = useState<string[]>(() => readLocalJson<string[]>('civil-study-career-skills', []));
   const [careerTarget, setCareerTarget] = useState(() => localStorage.getItem('civil-study-career-target') || 'Civil Engineering Internship');
   const [voicePrompt, setVoicePrompt] = useState('Explain a Civil Engineering topic in simple Gujarati, then give an exam-ready English summary.');
   const [cameraText, setCameraText] = useState('');
   const [offlineNotice, setOfflineNotice] = useState('');
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine);
   const [solverMode, setSolverMode] = useState('stress');
   const [solverValues, setSolverValues] = useState<Record<string, string>>({});
   const [solverResult, setSolverResult] = useState<{ formula: string; variables: string; value: number; units: string; verification: string } | null>(null);
-  const [reviewCards, setReviewCards] = useState<ReviewCard[]>(() => JSON.parse(localStorage.getItem('civil-study-reviews') || '[]'));
+  const [reviewCards, setReviewCards] = useState<ReviewCard[]>(() => readLocalJson<ReviewCard[]>('civil-study-reviews', []));
   const [reviewTopic, setReviewTopic] = useState('');
   const [reviewSubject, setReviewSubject] = useState(semesters[0].subjects[0]);
   const [graphSubject, setGraphSubject] = useState(semesters[0].subjects[0]);
   const [graphUnit, setGraphUnit] = useState('Unit 1');
   const [graphTopic, setGraphTopic] = useState('');
   const [graphPrereq, setGraphPrereq] = useState('');
-  const [graphTopics, setGraphTopics] = useState<GraphTopic[]>(() => JSON.parse(localStorage.getItem('civil-study-graph') || '[]'));
+  const [graphTopics, setGraphTopics] = useState<GraphTopic[]>(() => readLocalJson<GraphTopic[]>('civil-study-graph', []));
   const [graphStatusFilter, setGraphStatusFilter] = useState('All');
   const [graphMastery, setGraphMastery] = useState('0');
-  const [projectEvidence, setProjectEvidence] = useState<Array<{id:string; title:string; type:string; note:string; status:'draft'|'verified'; date:string}>>(() => JSON.parse(localStorage.getItem('civil-study-project-evidence') || '[]'));
+  const [projectEvidence, setProjectEvidence] = useState<Array<{id:string; title:string; type:string; note:string; status:'draft'|'verified'; date:string}>>(() => readLocalJson<Array<{id:string; title:string; type:string; note:string; status:'draft'|'verified'; date:string}>>('civil-study-project-evidence', []));
   const [evidenceTitle, setEvidenceTitle] = useState('');
   const [evidenceType, setEvidenceType] = useState('Drawing / Model');
   const [evidenceNote, setEvidenceNote] = useState('');
@@ -155,13 +169,13 @@ function App() {
   const [labFormula, setLabFormula] = useState('');
   const [labObservations, setLabObservations] = useState('');
   const [labAnalysis, setLabAnalysis] = useState<{count:number; average:number; minimum:number; maximum:number; spread:number} | null>(null);
-  const [labRecords, setLabRecords] = useState<Array<{id:string; experiment:string; subject:string; date:string; observationCount:number}>>(() => JSON.parse(localStorage.getItem('civil-study-lab-records') || '[]'));
+  const [labRecords, setLabRecords] = useState<Array<{id:string; experiment:string; subject:string; date:string; observationCount:number}>>(() => readLocalJson<Array<{id:string; experiment:string; subject:string; date:string; observationCount:number}>>('civil-study-lab-records', []));
   const [vivaSubject, setVivaSubject] = useState(semesters[0].subjects[0]);
   const [vivaQuestion, setVivaQuestion] = useState('');
   const [vivaTopic, setVivaTopic] = useState('');
   const [vivaAnswer, setVivaAnswer] = useState('');
   const [vivaEvaluation, setVivaEvaluation] = useState<VivaEvaluation | null>(null);
-  const [vivaWeakTopics, setVivaWeakTopics] = useState<string[]>(() => JSON.parse(localStorage.getItem('civil-study-viva-weak') || '[]'));
+  const [vivaWeakTopics, setVivaWeakTopics] = useState<string[]>(() => readLocalJson<string[]>('civil-study-viva-weak', []));
   const [theoryQuestion,setTheoryQuestion]=useState(''); const [theoryAnswer,setTheoryAnswer]=useState(''); const [theoryEvaluation,setTheoryEvaluation]=useState<TheoryEvaluation|null>(null);
   const [mockSet,setMockSet]=useState<MockQuestion[]>([]); const [mockAnswers,setMockAnswers]=useState<Record<number,number>>({}); const [mockIndex,setMockIndex]=useState(0); const [mockSubmitted,setMockSubmitted]=useState(false); const [mockStartedAt,setMockStartedAt]=useState<number|null>(() => Number(localStorage.getItem('civil-study-mock-started') || 0) || null); const [mockSecondsLeft,setMockSecondsLeft]=useState(0);
   const [ollamaUrl, setOllamaUrl] = useState(() => localStorage.getItem('civil-study-ollama-url') || 'http://localhost:11434');
@@ -209,7 +223,20 @@ function App() {
   useEffect(() => localStorage.setItem('civil-study-career-target', careerTarget), [careerTarget]);
   useEffect(() => { if (!mockStartedAt || mockSubmitted) return; const tick = () => { const remaining = Math.max(0, 20 * 60 - Math.floor((Date.now() - mockStartedAt) / 1000)); setMockSecondsLeft(remaining); if (remaining === 0 && mockSet.length) setMockSubmitted(true); }; tick(); const timer = window.setInterval(tick, 1000); return () => window.clearInterval(timer); }, [mockStartedAt, mockSubmitted, mockSet.length]);
   useEffect(() => { if (mockStartedAt) localStorage.setItem('civil-study-mock-started', String(mockStartedAt)); else localStorage.removeItem('civil-study-mock-started'); }, [mockStartedAt]);
-  useEffect(() => { api.get('/api/materials', { semester: selectedSemester }).then(result => { if (Array.isArray(result.data.items)) setMaterials(result.data.items); }).catch(() => undefined); }, [selectedSemester]);
+  useEffect(() => {
+    const handleOnline = () => { setIsOnline(true); setOfflineNotice('Connection restored. Local study data remains available and online features can be retried.'); };
+    const handleOffline = () => { setIsOnline(false); setOfflineNotice('Offline mode active. Local study tools remain available; online AI and server-backed material features are paused.'); };
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => { window.removeEventListener('online', handleOnline); window.removeEventListener('offline', handleOffline); };
+  }, []);
+  useEffect(() => {
+    api.get('/api/materials', { semester: selectedSemester })
+      .then(result => { if (Array.isArray(result.data.items)) setMaterials(result.data.items); })
+      .catch(() => {
+        if (!navigator.onLine) setOfflineNotice('Using locally cached study data for this semester. Connect to sync college materials.');
+      });
+  }, [selectedSemester]);
 
   const filteredModules = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -629,7 +656,11 @@ function App() {
 
   return <div className="app-shell">
     <aside className={showMobileNav ? 'sidebar mobile-open' : 'sidebar'}><div className="brand"><div className="brand-mark">⌂</div><div><strong>Civil Engineering</strong><span>Study OS</span></div></div><nav>{[...navItems, { label: 'Revision Scheduler', icon: CalendarDays }, { label: 'Knowledge Graph', icon: Target }].map(({ label, icon: Icon }) => <button key={label} className={active === label ? 'nav-item active' : 'nav-item'} onClick={() => openModule(label)}><Icon size={18} /><span>{label}</span></button>)}</nav><div className="semester-nav"><div className="section-label">SEMESTERS</div>{semesters.map(s => <button key={s.number} className={selectedSemester === s.number ? 'semester active' : 'semester'} onClick={() => { setSelectedSemester(s.number); setActive(`Semester ${s.number}`); setShowMobileNav(false); }}><span>{selectedSemester === s.number ? '●' : '○'}</span>Semester {s.number}</button>)}</div><div className="sidebar-bottom"><button className="nav-item" onClick={() => openModule('Knowledge Base')}><FileText size={18} /><span>Knowledge Base</span></button><button className="nav-item" onClick={() => openModule('Settings')}><Settings size={18} /><span>Settings</span></button><div className="status"><i /> System Online<span>Local-first · Free-first</span></div></div></aside>
-    <main className="main-content"><header className="topbar"><button className="mobile-menu" onClick={() => setShowMobileNav(v => !v)} aria-label="Open navigation"><Menu size={20} /></button><div className="search"><Search size={18} /><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search topics, modules, notes, questions..." /><kbd>Ctrl K</kbd></div><button className="mode" onClick={() => openModule('Local AI')}>AI <span>● Local</span></button><button className="icon-button" aria-label="Calendar" onClick={() => setActive('Study Plan')}><CalendarDays size={20} /></button><div className="profile"><div className="avatar">CE</div><div><strong>Civil Engineer</strong><span>Student</span></div></div></header>
+    <main className="main-content">
+      <div className={isOnline ? 'offline-status online' : 'offline-status offline'} role="status">
+        <span>{isOnline ? 'ONLINE · Local data protected' : 'OFFLINE · Local study mode'}</span>
+        <small>{isOnline ? 'Cloud features available; local workflows stay on-device.' : 'Calculators, revision, projects and saved study records continue locally.'}</small>
+      </div><header className="topbar"><button className="mobile-menu" onClick={() => setShowMobileNav(v => !v)} aria-label="Open navigation"><Menu size={20} /></button><div className="search"><Search size={18} /><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search topics, modules, notes, questions..." /><kbd>Ctrl K</kbd></div><button className="mode" onClick={() => openModule('Local AI')}>AI <span>● Local</span></button><button className="icon-button" aria-label="Calendar" onClick={() => setActive('Study Plan')}><CalendarDays size={20} /></button><div className="profile"><div className="avatar">CE</div><div><strong>Civil Engineer</strong><span>Student</span></div></div></header>
       <section className="hero"><div><h1>Welcome to <em>Civil Engineering Study OS</em></h1><p>Your AI-powered, free-first study companion for Civil Engineering.</p><div className="hero-tags"><span>8 Semesters</span><span>College Material Primary</span><span>AI Agents</span><span>Offline Ready</span><span>Source Traceable</span></div></div><div className="hero-illustration">🏗️</div></section>
       {errorMessage && <div className="error-banner"><X size={16} />{errorMessage}<button onClick={() => setErrorMessage('')}>Dismiss</button></div>}
       {active !== 'Home' && renderWorkspace()}
