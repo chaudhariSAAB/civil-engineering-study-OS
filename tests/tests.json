@@ -453,5 +453,54 @@
       "Review delivery readiness"
     ],
     "expected": "The evidence ledger shows the entry and student-verified status, and delivery readiness reflects both checklist and evidence verification."
+  },
+  {
+    "name": "Retain local study records for offline-first use",
+    "viewport": "desktop",
+    "covers": [
+      "offline-first local persistence",
+      "localStorage recovery",
+      "revision scheduler offline workflow"
+    ],
+    "description": "Verifies a locally stored revision topic survives a refresh without requiring a backend request.",
+    "steps": [
+      "Open Revision Scheduler",
+      "Add a Semester 1 topic named Offline Revision Topic",
+      "Refresh the page",
+      "Open Revision Scheduler again"
+    ],
+    "expected": "Offline Revision Topic remains visible with its scheduled review state."
+  },
+  {
+    "name": "Show explicit network state and offline guidance",
+    "viewport": "mobile",
+    "covers": [
+      "network state indicator",
+      "offline mode guidance",
+      "privacy and offline center"
+    ],
+    "description": "Verifies the app exposes explicit online/offline state and explains which workflows remain available without a network.",
+    "steps": [
+      "Open the Civil Engineering Study OS",
+      "Open Privacy & Offline Center",
+      "Inspect the network status indicator and offline-first guidance"
+    ],
+    "expected": "A clear network status is visible and the Offline Center identifies local workflows that remain available while online AI and server-backed features may require a connection."
+  },
+  {
+    "name": "Recover safely from malformed local study data",
+    "viewport": "desktop",
+    "covers": [
+      "corrupted local data recovery",
+      "safe local persistence",
+      "offline resilience"
+    ],
+    "description": "Verifies malformed local browser state does not prevent the Study OS from loading its local-first workspace.",
+    "steps": [
+      "Open the Study OS with malformed saved local study data present",
+      "Open Privacy & Offline Center",
+      "Inspect the local data controls"
+    ],
+    "expected": "The Study OS remains usable and the Privacy & Offline Center renders instead of crashing on malformed local data."
   }
 ]
