@@ -1,0 +1,457 @@
+[
+  {
+    "name": "Open the core learning workflow",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "dashboard navigation",
+      "semester selection",
+      "AI Teacher entry"
+    ],
+    "description": "Verifies the main dashboard can enter a semester-aware AI Teacher workflow.",
+    "steps": [
+      "Open the Civil Engineering Study OS",
+      "Select Semester 1",
+      "Open AI Teacher"
+    ],
+    "expected": "Semester 1 is selected and the AI Teacher workspace is visible."
+  },
+  {
+    "name": "Upload, analyze and practice a college question bank",
+    "viewport": "desktop",
+    "covers": [
+      "college material upload",
+      "question-bank storage",
+      "question-bank search",
+      "question-bank AI classification",
+      "question-bank source extraction"
+    ],
+    "description": "Verifies a readable college question bank can be stored, classified and turned into practice questions without inventing source content.",
+    "steps": [
+      "Open Study Materials",
+      "Choose Question Bank and upload a small text-readable PDF",
+      "Open Question Bank",
+      "Search for the uploaded name",
+      "Select Analyze",
+      "Select Practice"
+    ],
+    "expected": "The question bank appears with its College Material source label, analysis counts are visible, and extracted practice questions show source answers only when the source contains them."
+  },
+  {
+    "name": "Search the source-traceable knowledge base",
+    "viewport": "desktop",
+    "covers": [
+      "knowledge base search",
+      "semester and subject filtering",
+      "source traceability",
+      "knowledge search backend",
+      "relevance ranking",
+      "source version metadata"
+    ],
+    "description": "Verifies extracted college material can be searched and returned with ranked relevance, hierarchy context and source version metadata.",
+    "steps": [
+      "Open Knowledge Base",
+      "Select Semester 1 and search for a topic from an uploaded college material",
+      "Filter by the material subject",
+      "Inspect the returned source version and hierarchy"
+    ],
+    "expected": "Matching material is ranked by relevance and displayed with subject, source label, version metadata and Semester → Subject → Unit → Topic context."
+  },
+  {
+    "name": "Browse the Semester → Subject → Unit → Topic knowledge hierarchy",
+    "viewport": "desktop",
+    "covers": [
+      "knowledge hierarchy endpoint",
+      "semester subject unit topic tree",
+      "source version traceability"
+    ],
+    "description": "Verifies the Knowledge Base can expose a structured hierarchy from indexed college material without treating inferred topics as official facts.",
+    "steps": [
+      "Open Knowledge Base",
+      "Select the hierarchy view for Semester 1",
+      "Expand a subject and unit",
+      "Inspect a topic source and version"
+    ],
+    "expected": "A Semester → Subject → Unit → Topic tree is visible and each topic retains a source/version reference."
+  },
+  {
+    "name": "Practice and score MCQs with adaptive revision",
+    "viewport": "desktop",
+    "covers": [
+      "MCQ generation",
+      "MCQ scoring",
+      "answer explanations",
+      "adaptive study planning"
+    ],
+    "description": "Verifies exam practice produces a score and offers a weak-area revision plan.",
+    "steps": [
+      "Open Exam Preparation",
+      "Generate MCQs",
+      "Answer questions and submit",
+      "Select Build adaptive revision plan"
+    ],
+    "expected": "A score is visible and an adaptive revision plan shows prioritized actions with topics and time estimates."
+  },
+  {
+    "name": "Schedule and review a topic with spaced repetition",
+    "viewport": "desktop",
+    "covers": [
+      "revision scheduler",
+      "local persistence",
+      "spaced repetition interval",
+      "review quality controls"
+    ],
+    "description": "Verifies a student can add a topic, review it with a quality rating, and receive a future review date.",
+    "steps": [
+      "Open Revision Scheduler",
+      "Select a Semester 1 subject and enter a topic",
+      "Add the topic",
+      "Select Good when the topic is due"
+    ],
+    "expected": "The topic moves from due now to a scheduled future review and shows a review interval."
+  },
+  {
+    "name": "Run a deterministic Civil Engineering calculator",
+    "viewport": "desktop",
+    "covers": [
+      "civil calculators",
+      "unit conversion",
+      "input validation"
+    ],
+    "description": "Verifies deterministic engineering calculations run without AI hallucination risk.",
+    "steps": [
+      "Open Civil Calculators",
+      "Select Unit Converter",
+      "Enter 1 and m to ft",
+      "Select Calculate & verify"
+    ],
+    "expected": "A numeric converted result is shown and identified as deterministic calculator output."
+  },
+  {
+    "name": "Show an AI failure safely on mobile",
+    "viewport": "mobile",
+    "covers": [
+      "AI error handling",
+      "mobile interaction",
+      "dismissible error"
+    ],
+    "description": "Verifies an injected AI failure is visible and does not silently change the workspace.",
+    "qa_faults": [
+      {
+        "method": "POST",
+        "path": "/api/ai/workbench",
+        "status": 500,
+        "body_json": {
+          "error": "simulated_failure"
+        }
+      }
+    ],
+    "steps": [
+      "Open Project Guide",
+      "Start project roadmap generation"
+    ],
+    "expected": "A visible error message appears and the current workspace remains usable."
+  },
+  {
+    "name": "Run and validate a deterministic numerical solution",
+    "viewport": "desktop",
+    "covers": [
+      "Numerical Solver 2.0",
+      "deterministic numerical backend",
+      "engineering formula validation",
+      "unit-aware result"
+    ],
+    "description": "Verifies a civil engineering stress calculation returns a deterministic formula, numeric result, units and verification note.",
+    "steps": [
+      "Open Numerical Solver",
+      "Select Stress = Force / Area",
+      "Enter force 10000 and area 2 using SI units",
+      "Select Calculate deterministically"
+    ],
+    "expected": "A verified numerical result shows Stress = Force / Area, the calculated value 5000 and a unit/verification note."
+  },
+  {
+    "name": "Run Exam System 2.0 theory evaluation and mock workflow",
+    "viewport": "desktop",
+    "covers": [
+      "theory evaluation",
+      "mock exam generation",
+      "question navigation",
+      "mock scoring"
+    ],
+    "description": "Verifies Exam 2.0 can evaluate a theory answer and run a question-by-question mock.",
+    "steps": [
+      "Open Exam Preparation",
+      "Enter a theory question and answer",
+      "Evaluate answer",
+      "Start mock",
+      "Navigate questions",
+      "Submit mock"
+    ],
+    "expected": "Theory score/feedback and mock score/review are visible."
+  },
+  {
+    "name": "Practice Viva 2.0 one question at a time with evaluation and follow-up",
+    "viewport": "desktop",
+    "covers": [
+      "viva question generation",
+      "answer evaluation",
+      "follow-up question",
+      "weak-topic tracking"
+    ],
+    "description": "Verifies the Viva 2.0 workflow can generate one question, evaluate a student answer and present a follow-up question without claiming college-specific grading rules.",
+    "steps": [
+      "Open Viva Practice",
+      "Select a Semester 1 subject",
+      "Start a viva session",
+      "Enter a short answer",
+      "Select Evaluate answer",
+      "Review score, feedback and follow-up question"
+    ],
+    "expected": "One question is shown at a time, evaluation is visible on a 0-10 scale, and a follow-up question is available. Low scores are added to the local weak-topic tracker."
+  },
+  {
+    "name": "Connect the Local AI workspace to Ollama",
+    "viewport": "desktop",
+    "covers": [
+      "Local AI workspace",
+      "Ollama URL configuration",
+      "local model selection",
+      "offline-first AI routing"
+    ],
+    "description": "Verifies the Local AI workspace exposes browser-to-Ollama configuration and keeps local AI separate from the online backend.",
+    "steps": [
+      "Open Local AI",
+      "Inspect the Ollama URL and model controls",
+      "Inspect the local connection status and Windows setup note"
+    ],
+    "expected": "The Local AI workspace shows an Ollama URL field, model field, connection control, local status area and privacy/setup guidance."
+  },
+  {
+    "name": "Analyze recorded lab observations without inventing measurements",
+    "viewport": "desktop",
+    "covers": [
+      "Lab Assistant 2.0",
+      "observation analysis",
+      "deterministic statistics",
+      "no fabricated results"
+    ],
+    "description": "Verifies recorded numeric observations are summarized deterministically and the lab workflow distinguishes measured data from AI-generated report structure.",
+    "steps": [
+      "Open Lab Assistant",
+      "Enter an experiment name",
+      "Enter 10, 12, 14, 16 as recorded observations",
+      "Select Analyze recorded observations"
+    ],
+    "expected": "Count, average, minimum, maximum and spread are shown, with a note that the values came from the student."
+  },
+  {
+    "name": "Use Adaptive Learning 2.0 to identify the next study action",
+    "viewport": "mobile",
+    "covers": [
+      "adaptive learning dashboard",
+      "topic mastery tracking",
+      "local performance persistence",
+      "next best study action",
+      "AI revision plan handoff"
+    ],
+    "description": "Verifies completed MCQ performance feeds a local adaptive profile and exposes a prioritized next study action without treating it as the official college syllabus.",
+    "steps": [
+      "Open Exam Preparation",
+      "Generate and submit an MCQ set",
+      "Open Adaptive Learning",
+      "Inspect readiness, weak areas and recommended minutes",
+      "Select Build AI revision plan"
+    ],
+    "expected": "Adaptive Learning shows recorded performance, a next study action, topic-level weak areas when detected, and a path to an AI revision plan grounded in the selected semester."
+  },
+  {
+    "name": "Analyze a civil drawing with Drawing & Diagram AI",
+    "viewport": "mobile",
+    "covers": [
+      "drawing image upload",
+      "image-aware civil explanation",
+      "drawing analysis failure handling",
+      "visual learning workflow"
+    ],
+    "description": "Verifies a student can select a civil drawing image, choose an explanation mode and request an image-aware learning result with clear verification limits.",
+    "steps": [
+      "Open Drawing & Diagram AI",
+      "Choose an explanation mode",
+      "Upload a civil drawing image",
+      "Select Analyze drawing",
+      "Review the visual explanation and verification note"
+    ],
+    "expected": "The drawing workspace accepts an image, sends it for analysis and shows a beginner-friendly result with a warning that dimensions, standards and safety must be verified."
+  },
+  {
+    "name": "Run advanced civil quantity calculators",
+    "viewport": "desktop",
+    "covers": [
+      "steel weight calculation",
+      "earthwork volume",
+      "cement bag estimate",
+      "quantity calculator validation"
+    ],
+    "description": "Verifies deterministic advanced quantity calculators return transparent estimates with stated engineering assumptions.",
+    "steps": [
+      "Open Civil Calculators",
+      "Select Steel Weight and enter diameter 12 mm and length 10 m",
+      "Select Calculate & verify",
+      "Select Cement Bags Estimate and enter volume 1 m³ with mix ratio 1,2,4",
+      "Select Calculate & verify"
+    ],
+    "expected": "Deterministic results are displayed with units and the cement estimate explicitly states its dry-volume and cement-density assumptions."
+  },
+  {
+    "name": "Use Civil Lab 3.0 to record and analyze an experiment",
+    "viewport": "mobile",
+    "covers": [
+      "structured lab record",
+      "observation analysis",
+      "local history",
+      "report and viva workflow"
+    ],
+    "description": "Checks the enhanced lab workspace without fabricating measurements.",
+    "steps": [
+      "Open Lab Assistant",
+      "Enter experiment details and observations",
+      "Analyze observations",
+      "Build report structure",
+      "Review local history"
+    ],
+    "expected": "Lab workspace records the experiment locally, shows deterministic statistics and provides report/viva actions with verification warnings."
+  },
+  {
+    "name": "Build a deterministic quantity takeoff and cost estimate",
+    "viewport": "desktop",
+    "covers": [
+      "Estimation & Costing workspace",
+      "quantity takeoff",
+      "BOQ item calculation",
+      "user-entered rate",
+      "wastage and overhead totals",
+      "estimation backend"
+    ],
+    "description": "Verifies a student can add a measured quantity with a user-entered rate and receive transparent BOQ totals without invented rates.",
+    "steps": [
+      "Open Estimation & Costing",
+      "Enter PCC concrete, choose Volume, enter length 5, width 3, height 0.15, multiplier 1 and rate 6500",
+      "Select Add to BOQ",
+      "Enter wastage 5% and overhead 10%",
+      "Select Recalculate estimate"
+    ],
+    "expected": "The BOQ shows quantity 2.25 m³, the entered rate ₹6500, a calculated item amount and a grand total with separate wastage and overhead amounts."
+  },
+  {
+    "name": "Reject invalid quantity takeoff dimensions",
+    "viewport": "mobile",
+    "covers": [
+      "quantity takeoff validation",
+      "negative-input guardrail",
+      "mobile estimation workflow"
+    ],
+    "description": "Verifies invalid dimensions are blocked before an estimation item is added.",
+    "steps": [
+      "Open Estimation & Costing",
+      "Choose Volume measurement",
+      "Enter a negative length and a valid rate",
+      "Select Add to BOQ"
+    ],
+    "expected": "A visible validation error appears and no invalid quantity item is added."
+  },
+  {
+    "name": "Practice an AutoCAD, Revit or BIM project workflow",
+    "viewport": "desktop",
+    "covers": [
+      "AutoCAD learning track",
+      "Revit learning track",
+      "BIM coordination track",
+      "CAD/BIM project roadmap",
+      "portfolio deliverables"
+    ],
+    "description": "Verifies the CAD/BIM workspace exposes software tracks, skill levels, ordered learning steps and a practical civil project workflow.",
+    "steps": [
+      "Open AutoCAD / Revit / BIM",
+      "Select Revit and Project Ready",
+      "Review the ordered Revit roadmap",
+      "Review the Residential Building BIM/CAD Pack deliverables"
+    ],
+    "expected": "The workspace shows the selected Revit level, ordered learning steps, software-version verification guidance and a practical project deliverable checklist."
+  },
+  {
+    "name": "Track a final-year civil project",
+    "viewport": "mobile",
+    "covers": [
+      "project manager",
+      "final-year project checklist",
+      "milestone tracking",
+      "local persistence",
+      "portfolio evidence"
+    ],
+    "description": "Verifies project stage and deliverable completion can be tracked locally.",
+    "steps": [
+      "Open Project & Final Year Manager",
+      "Enter a project name",
+      "Select Methodology stage",
+      "Mark report and portfolio deliverables complete"
+    ],
+    "expected": "The Project & Final Year Manager workspace is visible with project name, stage selector, delivery checklist and completion status."
+  },
+  {
+    "name": "Build civil internship readiness evidence",
+    "viewport": "desktop",
+    "covers": [
+      "career target",
+      "technical skill evidence",
+      "portfolio readiness",
+      "internship preparation",
+      "local persistence"
+    ],
+    "description": "Verifies career readiness can be tracked using practical evidence rather than unsupported placement claims.",
+    "steps": [
+      "Open Career & Internship OS",
+      "Enter a career target",
+      "Mark CAD/BIM and project evidence complete",
+      "Review readiness percentage"
+    ],
+    "expected": "The target, evidence checklist and readiness percentage are visible, with a reminder to verify employer-specific requirements."
+  },
+  {
+    "name": "Verify Knowledge Graph 2.0 against stored college material",
+    "viewport": "desktop",
+    "covers": [
+      "knowledge graph source linking",
+      "student verification",
+      "prerequisite health",
+      "topic mastery"
+    ],
+    "description": "Verifies graph topics can link to stored college material, track mastery and be explicitly marked student-verified.",
+    "steps": [
+      "Open Knowledge Graph",
+      "Add a Semester 1 topic with a unit, prerequisite and mastery percentage",
+      "Inspect the mapped topic and source-link state",
+      "Mark the topic verified when a stored college source is linked"
+    ],
+    "expected": "The graph shows mastery, prerequisite health, linked college-source count and a clear student-verified state only after explicit verification."
+  },
+  {
+    "name": "Build a project evidence ledger",
+    "viewport": "mobile",
+    "covers": [
+      "project evidence ledger",
+      "evidence status",
+      "project readiness",
+      "local persistence"
+    ],
+    "description": "Verifies project work can be recorded as evidence entries and explicitly marked verified without claiming faculty certification.",
+    "steps": [
+      "Open Project & Final Year Manager",
+      "Enter a project name",
+      "Add a drawing/model evidence entry with a note",
+      "Mark the evidence verified",
+      "Review delivery readiness"
+    ],
+    "expected": "The evidence ledger shows the entry and student-verified status, and delivery readiness reflects both checklist and evidence verification."
+  }
+]
