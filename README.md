@@ -11,9 +11,11 @@ A free-first, local-first AI-powered study system for Civil Engineering, designe
 - Local/open-source AI first, with cloud services optional rather than required for core learning
 - Offline-ready architecture and privacy-aware personal study workflows
 
-## Current foundation
+## Current implementation
 
-The first interactive dashboard milestone is deployed and includes semester navigation, study modules, search, study-plan controls, college-material readiness state, progress tracking and responsive layout.
+The deployed implementation includes Semester 1–8 navigation, college-material ingestion and source traceability, Knowledge Base 3.0, Knowledge Graph 2.0, AI Teacher, Numerical Solver 2.0, Exam System 3.0, Question Bank intelligence, Lab Assistant 3.0, Viva Practice 2.0, Adaptive Learning 2.0, Revision Scheduler, Drawing & Diagram AI, deterministic civil calculators, Surveying/GIS tools, Estimation & Costing, AutoCAD/Revit/BIM learning tracks, Project & Final Year Manager 2.0 with an evidence ledger, Career & Internship OS, Local AI/Ollama support, privacy/offline controls, responsive UI, and AppDeploy QA validation.
+
+Core engineering calculations are deterministic where implemented; AI-generated content is explicitly marked as AI-assisted and college-specific claims must be checked against stored college material.
 
 ## Architecture
 
